@@ -3,9 +3,13 @@ package main
 import (
 	"github.com/gin-gonic/gin"
 	"log"
+	"os"
+	"tender-service/src/config"
 )
 
 func main() {
+	config.LoadConfig()
+
 	router := gin.Default()
 
 	router.GET("/ping", func(c *gin.Context) {
@@ -14,5 +18,6 @@ func main() {
 		})
 	})
 
-	log.Fatal(router.Run(":8080"))
+	serverAddress := os.Getenv("SERVER_ADDRESS")
+	log.Fatal(router.Run(serverAddress))
 }

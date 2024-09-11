@@ -10,6 +10,8 @@ import (
 func main() {
 	config.LoadConfig()
 
+	config.ConnectDB()
+
 	router := gin.Default()
 
 	router.GET("/ping", func(c *gin.Context) {

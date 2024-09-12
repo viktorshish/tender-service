@@ -15,7 +15,7 @@ type Tender struct {
 	ID             string                  `gorm:"type:uuid;primary_key;default:uuid_generate_v4()" json:"id"`
 	Name           string                  `gorm:"type:varchar(255);not null; " json:"title"`
 	Description    string                  `gorm:"type:text;" json:"description"`
-	Status         StatusType              `gorm:"type:status_type" json:"status_type"`
+	Status         StatusType              `gorm:"type:status_type" json:"status"`
 	Version        int                     `gorm:"type:int; default:1" json:"version"`
 	OrganizationID string                  `gorm:"type:uuid;not null" json:"organizationId"`
 	Organization   Organization            `gorm:"foreignKey:OrganizationID" json:"organization"`

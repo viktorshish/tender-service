@@ -2,25 +2,30 @@ package services
 
 import (
 	"errors"
-
 	"github.com/google/uuid"
-
 	"tender-service/internal/config"
 	"tender-service/internal/models"
 )
 
 type CreateTenderInput struct {
-	Name            string `json:"name" binding:"required"`
+	Name            string `json:"name"`
 	Description     string `json:"description"`
-	ServiceType     string `json:"serviceType" binding:"required"`
-	Status          string `json:"status" binding:"required"`
-	OrganizationID  string `json:"organizationId" binding:"required,uuid"`
-	CreatorUsername string `json:"creatorUsername" binding:"required"`
+	ServiceType     string `json:"serviceType"`
+	Status          string `json:"status"`
+	OrganizationID  string `json:"organizationId"`
+	CreatorUsername string `json:"creatorUsername"`
 }
 
-func CreateTender(input CreateTenderInput) (*models.Tender, error) {
-	var employee models.Employee
+type TenderResponse struct {
+	ID          string `json:"id"`
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	ServiceType string `json:"serviceType"`
+	Status      string `json:"status"`
+}
 
+func CreateTender(input CreateTenderInput) (*TenderResponse, error) {
+	var employee models.Employee
 	if err := config.DB.Where("username = ?", input.CreatorUsername).First(&employee).Error; err != nil {
 		return nil, errors.New("user not found")
 	}
@@ -31,20 +36,28 @@ func CreateTender(input CreateTenderInput) (*models.Tender, error) {
 	}
 
 	tender := models.Tender{
-		ID:             uuid.New(),
+		ID:             uuid.New(), // Генерация UUID для тендера
 		Name:           input.Name,
 		Description:    input.Description,
 		ServiceType:    input.ServiceType,
 		Status:         models.StatusType(input.Status),
 		Version:        1,
 		OrganizationID: input.OrganizationID,
-		ResponsibleID:  employee.ID,
-		CreatorID:      employee.ID,
+		ResponsibleID:  employee.ID, // Ответственный - сам пользователь
+		CreatorID:      employee.ID, // Создатель тендера
 	}
 
 	if err := config.DB.Create(&tender).Error; err != nil {
 		return nil, errors.New("failed to create tender")
 	}
 
-	return &tender, nil
+	response := &TenderResponse{
+		ID:          tender.ID.String(),
+		Name:        tender.Name,
+		Description: tender.Description,
+		ServiceType: tender.ServiceType,
+		Status:      string(tender.Status),
+	}
+
+	return response, nil
 }

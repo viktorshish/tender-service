@@ -18,3 +18,7 @@ type Organization struct {
 	CreatedAt   time.Time        `gorm:"type:timestamp;default:current_timestamp" json:"created_at"`
 	UpdatedAt   time.Time        `gorm:"type:timestamp;default:current_timestamp" json:"updated_at"`
 }
+
+func (Organization) TableName() string {
+	return "organization"
+}

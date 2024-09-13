@@ -12,3 +12,8 @@ type Employee struct {
 	CreatedAt time.Time `gorm:"type:timestamp;default:current_timestamp" json:"created_at"`
 	UpdatedAt time.Time `gorm:"type:timestamp;default:current_timestamp" json:"updated_at"`
 }
+
+// Явное указание имени таблицы
+func (Employee) TableName() string {
+	return "employee"
+}

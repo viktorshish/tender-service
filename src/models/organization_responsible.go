@@ -7,3 +7,7 @@ type OrganizationResponsible struct {
 	Organization   Organization `gorm:"foreignKey:OrganizationID;references:ID;constraint:OnDelete:CASCADE" json:"organization"`
 	User           Employee     `gorm:"foreignKey:UserID; references:ID;constraint:OnDelete:CASCADE" json:"user"`
 }
+
+func (OrganizationResponsible) TableName() string {
+	return "organization_responsible"
+}

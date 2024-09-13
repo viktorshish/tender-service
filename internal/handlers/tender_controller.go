@@ -1,9 +1,9 @@
-package controllers
+package handlers
 
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"tender_service_project/src/services"
+	"tender-service/internal/services"
 )
 
 func CreateTenderHandler(c *gin.Context) {

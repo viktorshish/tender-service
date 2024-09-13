@@ -1,0 +1,14 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: ../deployments/Dockerfile
+    environment:
+      POSTGRES_USER: ${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DATABASE: ${POSTGRES_DATABASE}
+    expose:
+      - "8080" # приложение крутится на этом порту
+    restart: unless-stopped
+    volumes:
+      - ../:/app

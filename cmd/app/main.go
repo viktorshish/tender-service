@@ -4,7 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"log"
 	"os"
-	"tender-service/src/config"
+	"tender-service/internal/config"
+	"tender-service/internal/routes"
 )
 
 func main() {
@@ -14,11 +15,14 @@ func main() {
 
 	router := gin.Default()
 
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	routes.SetupRoutes(router)
+
+	/*
+		router.GET("/ping", func(c *gin.Context) {
+			c.JSON(200, gin.H{
+				"message": "pong",
+			})
+		})*/
 
 	serverAddress := os.Getenv("SERVER_ADDRESS")
 	log.Fatal(router.Run(serverAddress))

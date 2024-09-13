@@ -102,18 +102,18 @@ CREATE TYPE status_type AS ENUM (
     'CANCELED'
 );
 
-CREATE TABLE tenders (
-     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-     name VARCHAR(255) NOT NULL,
-     description TEXT,
-     status status_type NOT NULL,
-     version INT DEFAULT 1,
-     organization_id UUID NOT NULL,
-     responsible_id UUID NOT NULL,
-     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-     FOREIGN KEY (organization_id) REFERENCES organization(id) ON DELETE CASCADE,
-     FOREIGN KEY (responsible_id) REFERENCES organization_responsible(id) ON DELETE CASCADE
+CREATE TABLE tender (
+    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    name VARCHAR(255) NOT NULL,
+    description TEXT,
+    service_type VARCHAR(255) NOT NULL,
+    status status_type NOT NULL DEFAULT 'CREATED',
+    version INT NOT NULL DEFAULT 1,
+    organization_id UUID NOT NULL REFERENCES organization(id) ON DELETE CASCADE,
+    responsible_id UUID NOT NULL REFERENCES employee(id) ON DELETE SET NULL,
+    creator_id UUID NOT NULL REFERENCES employee(id) ON DELETE CASCADE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 );
 ```
 ## Запуск сервера

@@ -6,23 +6,22 @@ ifneq ("$(wildcard $(ENV_FILE))","")
 	export $(shell sed 's/=.*//' $(ENV_FILE))
 endif
 
-DOCKER_COMPOSE = docker-compose -f deployments/docker-compose.yaml
-DATABASE_URL = postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@127.0.0.1:$(POSTGRES_PORT)/$(POSTGRES_DATABASE)?sslmode=disable
+DATABASE_URL = postgresql://$(POSTGRES_USERNAME):$(POSTGRES_PASSWORD)@127.0.0.1:$(POSTGRES_EXTERNAL_PORT)/$(POSTGRES_DATABASE)?sslmode=disable
 MIGRATION_TOOL = migrate/migrate:v4.12.2
-MIGRATION_DIR = $(PWD)/deployments/migrations
+MIGRATION_DIR = $(PWD)/migrations
 
 .PHONY: *
 
 # Serving
 start:
-	$(DOCKER_COMPOSE) up -d
+	docker-compose up -d
 restart: clean start
 stop:
-	$(DOCKER_COMPOSE) down
+	docker-compose down
 clean:
-	$(DOCKER_COMPOSE) down --rmi local -v
+	docker-compose down --rmi local -v
 app-rebuild:
-	$(DOCKER_COMPOSE) up -d --no-deps --build app
+	docker-compose up -d --no-deps --build app
 
 # Migrations
 create-migration:
@@ -37,4 +36,4 @@ database-recreate: migrate-drop migrate-up
 
 # Other
 ps:
-	$(DOCKER_COMPOSE) ps
+	docker-compose ps

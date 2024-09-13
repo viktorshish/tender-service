@@ -6,8 +6,14 @@ import (
 	"tender-service/internal/handlers"
 )
 
-// SetupRoutes настраивает маршруты для приложения.
 func SetupRoutes(router *gin.Engine) {
-	// Маршрут для создания тендера.
+	router.GET("/ping", func(c *gin.Context) {
+		c.JSON(200, gin.H{
+			"message": "pong",
+		})
+	})
+
 	router.POST("/api/tenders/new", handlers.CreateTenderHandler)
+
+	router.POST("/api/tenders/:tenderId/publish", handlers.PublishTenderHandler)
 }

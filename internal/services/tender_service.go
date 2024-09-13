@@ -36,19 +36,49 @@ func CreateTender(input CreateTenderInput) (*TenderResponse, error) {
 	}
 
 	tender := models.Tender{
-		ID:             uuid.New(), // Генерация UUID для тендера
+		ID:             uuid.New(),
 		Name:           input.Name,
 		Description:    input.Description,
 		ServiceType:    input.ServiceType,
 		Status:         models.StatusType(input.Status),
 		Version:        1,
 		OrganizationID: input.OrganizationID,
-		ResponsibleID:  employee.ID, // Ответственный - сам пользователь
-		CreatorID:      employee.ID, // Создатель тендера
+		ResponsibleID:  employee.ID,
+		CreatorID:      employee.ID,
 	}
 
 	if err := config.DB.Create(&tender).Error; err != nil {
 		return nil, errors.New("failed to create tender")
+	}
+
+	response := &TenderResponse{
+		ID:          tender.ID.String(),
+		Name:        tender.Name,
+		Description: tender.Description,
+		ServiceType: tender.ServiceType,
+		Status:      string(tender.Status),
+	}
+
+	return response, nil
+}
+
+func PublishTender(tenderID string, username string) (*TenderResponse, error) {
+	var tender models.Tender
+	var employee models.Employee
+
+	if err := config.DB.Where("username = ?", username).First(&employee).Error; err != nil {
+		return nil, errors.New("user not found")
+	}
+
+	var orgResp models.OrganizationResponsible
+	if err := config.DB.Where("user_id = ? AND organization_id = ?", employee.ID, tender.OrganizationID).First(&orgResp).Error; err != nil {
+		return nil, errors.New("user is not responsible for this organization")
+	}
+
+	tender.Status = "PUBLISHED"
+
+	if err := config.DB.Save(&tender).Error; err != nil {
+		return nil, errors.New("failed to publish tender")
 	}
 
 	response := &TenderResponse{

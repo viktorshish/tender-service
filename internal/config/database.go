@@ -2,22 +2,23 @@ package config
 
 import (
 	"fmt"
-	"gorm.io/driver/postgres"
-	"gorm.io/gorm"
 	"log"
 	"os"
+
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
 var DB *gorm.DB
 
 func ConnectDB() {
-	dbUsername := os.Getenv("POSTGRES_USERNAME")
-	dbPassword := os.Getenv("POSTGRES_PASSWORD")
-	dbHost := os.Getenv("POSTGRES_HOST")
-	dbPort := os.Getenv("POSTGRES_PORT")
-	dbName := os.Getenv("POSTGRES_DATABASE")
-
-	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable", dbHost, dbUsername, dbPassword, dbName, dbPort)
+	dsn := fmt.Sprintf(
+		"postgresql://%s:%s@postgres:%d/%s?sslmode=disable",
+		os.Getenv("POSTGRES_USERNAME"),
+		os.Getenv("POSTGRES_PASSWORD"),
+		5432,
+		os.Getenv("POSTGRES_DATABASE"),
+	)
 
 	var err error
 	DB, err = gorm.Open(postgres.Open(dsn), &gorm.Config{})

@@ -1,6 +1,10 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/google/uuid"
+)
 
 type StatusType string
 
@@ -12,7 +16,7 @@ const (
 )
 
 type Tender struct {
-	ID             string                  `gorm:"type:uuid;primary_key;default:uuid_generate_v4()" json:"id"`
+	ID             uuid.UUID               `gorm:"type:uuid;primary_key" json:"id"`
 	Name           string                  `gorm:"type:varchar(255);not null" json:"name"`
 	Description    string                  `gorm:"type:text" json:"description"`
 	ServiceType    string                  `gorm:"type:varchar(255);not null" json:"serviceType"`

@@ -5,7 +5,7 @@ import (
 )
 
 type Employee struct {
-	ID        string    `gorm:"type:uuid;primary_key;default:uuid_generate_v4()" json:"id"`
+	ID        string    `gorm:"type:uuid;primary_key" json:"id"`
 	Username  string    `gorm:"type:varchar(50);unique;not null" json:"username"`
 	Firstname string    `gorm:"type:varchar(50)" json:"first_name"`
 	Lastname  string    `gorm:"type:varchar(50)" json:"last_name"`

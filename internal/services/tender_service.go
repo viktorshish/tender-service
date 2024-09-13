@@ -2,6 +2,9 @@ package services
 
 import (
 	"errors"
+
+	"github.com/google/uuid"
+
 	"tender-service/internal/config"
 	"tender-service/internal/models"
 )
@@ -28,6 +31,7 @@ func CreateTender(input CreateTenderInput) (*models.Tender, error) {
 	}
 
 	tender := models.Tender{
+		ID:             uuid.New(),
 		Name:           input.Name,
 		Description:    input.Description,
 		ServiceType:    input.ServiceType,

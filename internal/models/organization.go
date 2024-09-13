@@ -11,7 +11,7 @@ const (
 )
 
 type Organization struct {
-	ID          string           `gorm:"type:uuid;primary_key;default:uuid_generate_v4()" json:"id"`
+	ID          string           `gorm:"type:uuid;primary_key" json:"id"`
 	Name        string           `gorm:"type:varchar(100);not null" json:"name"`
 	Description string           `gorm:"type:text" json:"description"`
 	Type        OrganizationType `gorm:"type:organization_type" json:"type"`

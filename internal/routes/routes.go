@@ -15,5 +15,7 @@ func SetupRoutes(router *gin.Engine) {
 		api.POST("/tenders/new", handlers.CreateTenderHandler)
 
 		api.PATCH("/tenders/:id/publish", handlers.PublishTenderHandler)
+
+		api.GET("/tenders", handlers.GetTendersHandler)
 	}
 }

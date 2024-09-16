@@ -7,13 +7,14 @@ import (
 )
 
 func SetupRoutes(router *gin.Engine) {
-	router.GET("/ping", func(c *gin.Context) {
-		c.JSON(200, gin.H{
-			"message": "pong",
-		})
-	})
+	api := router.Group("/api")
 
-	router.POST("/api/tenders/new", handlers.CreateTenderHandler)
+	{
+		api.GET("/ping", handlers.PingHandler)
 
-	router.POST("/api/tenders/:tenderId/publish", handlers.PublishTenderHandler)
+		api.POST("/tenders/new", handlers.CreateTenderHandler)
+
+		api.POST("/tenders/:tenderId/publish", handlers.PublishTenderHandler)
+	}
+
 }

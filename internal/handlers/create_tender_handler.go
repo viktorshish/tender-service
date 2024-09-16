@@ -83,7 +83,7 @@ func CreateTenderHandler(c *gin.Context) {
 
 	log.Println("Тендер создан успешно:", tender.ID)
 
-	response := TenderDTO{
+	responseDTO := TenderDTO{
 		ID:             tender.ID,
 		Name:           tender.Name,
 		Description:    tender.Description,
@@ -92,5 +92,5 @@ func CreateTenderHandler(c *gin.Context) {
 		CreatorID:      tender.CreatorID,
 		Status:         tender.Status,
 	}
-	c.JSON(http.StatusOK, response)
+	c.JSON(http.StatusOK, responseDTO)
 }

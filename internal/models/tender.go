@@ -22,7 +22,7 @@ type Tender struct {
 	ServiceType    string                  `gorm:"type:varchar(255);not null" json:"serviceType"`
 	Status         StatusType              `gorm:"type:status_type;not null" json:"status"`
 	Version        int                     `gorm:"default:1" json:"version"`
-	OrganizationID string                  `gorm:"type:uuid;not null" json:"organizationId"`
+	OrganizationID uuid.UUID               `gorm:"type:uuid;not null" json:"organizationId"`
 	Organization   Organization            `gorm:"foreignKey:OrganizationID" json:"organization"`
 	ResponsibleID  string                  `gorm:"type:uuid;not null" json:"responsibleId"`
 	Responsible    OrganizationResponsible `gorm:"foreignKey:ResponsibleID" json:"responsible"`

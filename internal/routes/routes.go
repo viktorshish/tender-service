@@ -13,8 +13,5 @@ func SetupRoutes(router *gin.Engine) {
 		api.GET("/ping", handlers.PingHandler)
 
 		api.POST("/tenders/new", handlers.CreateTenderHandler)
-
-		api.POST("/tenders/:tenderId/publish", handlers.PublishTenderHandler)
 	}
-
 }

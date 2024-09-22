@@ -17,7 +17,7 @@ type TenderResponse struct {
 	Organization string    `json:"organizationName"`
 }
 
-func GetTendersHandler(c *gin.Context) {
+func GetTenders(c *gin.Context) {
 	// Получаем параметр фильтрации serviceType (если он есть)
 	serviceType := c.Query("serviceType")
 
@@ -46,8 +46,8 @@ func GetTendersHandler(c *gin.Context) {
 			Name:         tender.Name,
 			Description:  tender.Description,
 			ServiceType:  tender.ServiceType,
-			Status:       string(tender.Status),    // Преобразуем статус в строку
-			Organization: tender.Organization.Name, // Имя организации
+			Status:       string(tender.Status),
+			Organization: tender.Organization.Name,
 		})
 	}
 	c.JSON(http.StatusOK, tenderResponses)

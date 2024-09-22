@@ -2,22 +2,27 @@ package routes
 
 import (
 	"github.com/gin-gonic/gin"
-
 	"tender-service/internal/handlers"
 )
 
 func SetupRoutes(router *gin.Engine) {
-	api := router.Group("/api")
-
+	apiTenders := router.Group("/api/tenders")
 	{
-		api.GET("/ping", handlers.PingHandler)
+		apiTenders.POST("/new", handlers.CreateTender) // Responsible for the organization
 
-		api.POST("/tenders/new", handlers.CreateTenderHandler)
+		apiTenders.PUT("/:id/publish", handlers.PublishTender) // Responsible for the organization
 
-		api.PATCH("/tenders/:id/publish", handlers.PublishTenderHandler)
+		apiTenders.GET("/", handlers.GetTenders) // All users
 
-		api.GET("/tenders", handlers.GetTendersHandler)
+		//apiTenders.GET("/my", handlers.GetMyTenders) // All users
 
-		api.PATCH("/tenders/:id/cancel", handlers.CancelTenderHandler)
+		//apiTenders.GET("/service", handlers.GetTendersByService) // All users
+
+		//apiTenders.PUT("/:id/cancel", handlers.CancelTender) // Responsible for the organization
+
+		//apiTenders.PUT("/:id/edit", handlers.EditTender) // Responsible for the organization
+
+		//apiTenders.PUT("/:id/rollback", handlers.RollbackTender) // Responsible for the organization")
 	}
+
 }

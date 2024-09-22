@@ -157,10 +157,6 @@ can view published tenders without authentication.
 Access:
 Public
 
-Headers:
-
-•	Optional Authorization: Bearer <your_jwt_token> (Not required as JWT is not implemented yet)
-
 Query Parameters:
 
 •	serviceType (string, optional): Filter tenders by service type.

@@ -1,6 +1,9 @@
 package models
 
-import "time"
+import (
+	"github.com/google/uuid"
+	"time"
+)
 
 type OrganizationType string
 
@@ -11,12 +14,12 @@ const (
 )
 
 type Organization struct {
-	ID          string           `gorm:"type:uuid;primary_key" json:"id"`
+	ID          uuid.UUID        `gorm:"type:uuid;primaryKey;default:uuid_generate_v4()" json:"id"`
 	Name        string           `gorm:"type:varchar(100);not null" json:"name"`
 	Description string           `gorm:"type:text" json:"description"`
 	Type        OrganizationType `gorm:"type:organization_type" json:"type"`
-	CreatedAt   time.Time        `gorm:"type:timestamp;default:current_timestamp" json:"created_at"`
-	UpdatedAt   time.Time        `gorm:"type:timestamp;default:current_timestamp" json:"updated_at"`
+	CreatedAt   time.Time        `json:"created_at"`
+	UpdatedAt   time.Time        `json:"updated_at"`
 }
 
 func (Organization) TableName() string {
